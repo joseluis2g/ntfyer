@@ -14,15 +14,13 @@ async function socket(client: NtfyClient) {
 	conn.write(new TextEncoder().encode("06\x00\x00\xff\xffinfo"));
 	const buffer = new Uint8Array(1024);
 	const n = await conn.read(buffer);
+	console.log(n);
 	conn.close();
 
 	if (n === null) {
 		client.send("Server is offline", { Title: "Estado del servidor" });
 		return;
 	}
-
-	console.log(n);
-	console.log(buffer);
 
 	client.send(n as string, { Title: "Estado del servidor" });
 	// $socket = @fsockopen($this->server, $this->port, $error, $message, config('status_timeout'));
